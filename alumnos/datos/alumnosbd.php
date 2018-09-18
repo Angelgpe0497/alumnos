@@ -1,10 +1,11 @@
 <?php
-require_once 'conexion.php';
+require_once "conexion.php";
+
 class AlumnosBd {
   public function insertarAlumno($alumno){
     try {
       $pdo = Conexion::getInstancia()->conectar();
-      $sql = "INSERT INTO alumnos (nombre, apellidos, carrera, fechaNac) " .
+      $sql = "INSERT INTO alumnos (nombre,apellidos,carrera,fecha_nac) " .
               "VALUES(?,?,?,?)";
 
       $query = $pdo->prepare($sql);
@@ -22,6 +23,19 @@ class AlumnosBd {
       }
     } catch(PDOException $e) {
       echo "Error al insertar Alumno. " . $e;
+    }
+  }
+
+  public function seleccionarTodos($tabla) {
+    $sql = "SELECT * FROM " . $tabla;
+    try {
+      $pdo = Conexion::getInstancia()->conectar();
+      return $pdo->query($sql);
+       //$query->setFetchMode(PDO::FETCH_ASSOC);
+      // $query->fetch();
+      //print_r($query->fetch());
+    } catch (PDOException $e) {
+      echo "Error al realizar la consulta: " . $e;
     }
   }
 }
